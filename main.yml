@@ -1,0 +1,55 @@
+---
+- name: Setup Longyan as the door strike controller
+  hosts: all
+  tasks:
+    - name: Install prereqs
+      ansible.builtin.package:
+        name:
+          - git
+          - libxkbcommon-dev
+          - python3-pip
+      become: true
+    - name: Check for Cargo
+      stat:
+        path: .cargo/bin/cargo
+      register: cargo_exists
+      ignore_errors: yes
+    - name: Download rustup
+      when: cargo_exists is failed
+      get_url:
+        url: https://sh.rustup.rs
+        dest: /tmp/sh.rustup.rs
+        mode: '0755'
+        force: 'yes'
+    - name: Install Rust Toolchain
+      when: cargo_exists is failed
+      shell: /tmp/sh.rustup.rs -y
+    - name: Install doorkeeper-controller
+      ansible.builtin.git:
+        repo: 'https://github.com/lugatuic/doorkeeper-controller'
+        dest: doorkeeper-controller
+        depth: 1
+    - ansible.builtin.pip:
+        name: .
+        extra_args: --user
+        break_system_packages: true
+        chdir: doorkeeper-controller
+    - name: Install doorbot-discord
+      ansible.builtin.git:
+        repo: 'https://github.com/lugatuic/doorbot-discord'
+        dest: doorbot-discord
+        depth: 1
+    - ansible.builtin.pip:
+        name: .
+        extra_args: --user
+        break_system_packages: true
+        chdir: doorbot-discord
+    - name: Install doorkeeper-driver
+      ansible.builtin.git:
+        repo: 'https://github.com/lugatuic/doorkeeper-driver'
+        dest: doorkeeper-driver
+        depth: 1
+    - community.general.cargo:
+        name: door-driver
+        executable: .cargo/bin/cargo
+        directory: doorkeeper-driver
