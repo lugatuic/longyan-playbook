@@ -1,0 +1,9 @@
+[Unit]
+Description="Run the discord bot for opening the door"
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+WorkingDirectory=%h/doorbot-discord/
+ExecStart=python -m doorbot

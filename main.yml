@@ -53,3 +53,21 @@
         name: door-driver
         executable: .cargo/bin/cargo
         directory: doorkeeper-driver
+    - name: Install doorkeeper service
+      ansible.builtin.copy:
+        src: doorkeeper.service
+        dest: .config/systemd/user/
+    - ansible.builtin.systemd:
+        name: doorkeeper.service
+        state: started
+        scope: user
+        enabled: true
+    - name: Install doorbot service
+      ansible.builtin.copy:
+        src: discordbot.service
+        dest: .config/systemd/user/
+    - ansible.builtin.systemd:
+        name: discordbot.service
+        state: started
+        scope: user
+        enabled: true
