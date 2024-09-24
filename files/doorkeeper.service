@@ -4,8 +4,8 @@ Description="Reads keyboard input with door-driver and pipes to card reader scri
 [Service]
 WorkingDirectory=%h/doorkeeper-controller
 ExecStart=%h/doorkeeper-controller/fuck-systemd.sh
+Restart=on-failure
+RestartSec=5s
 
 [Install]
 WantedBy=default.target
-Restart=on-failure
-RestartSec=5s

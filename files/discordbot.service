@@ -1,11 +1,11 @@
 [Unit]
 Description="Run the discord bot for opening the door"
 
-[Install]
-WantedBy=default.target
-
 [Service]
 WorkingDirectory=%h/doorbot-discord/
 ExecStart=python -m doorbot
 Restart=on-failure
 RestartSec=5s
+
+[Install]
+WantedBy=default.target
