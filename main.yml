@@ -53,6 +53,10 @@
         name: door-driver
         executable: .cargo/bin/cargo
         directory: doorkeeper-driver
+    - name: Ensure lingering enabled
+      ansible.builtin.command:
+        cmd: loginctl enable-linger
+        creates: /var/lib/systemd/linger/{{ ansible_user_id }}
     - name: Install doorkeeper service
       ansible.builtin.copy:
         src: doorkeeper.service
