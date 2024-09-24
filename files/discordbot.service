@@ -2,7 +2,7 @@
 Description="Run the discord bot for opening the door"
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
 
 [Service]
 WorkingDirectory=%h/doorbot-discord/
