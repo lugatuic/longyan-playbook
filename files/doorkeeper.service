@@ -7,3 +7,5 @@ ExecStart=%h/doorkeeper-controller/fuck-systemd.sh
 
 [Install]
 WantedBy=default.target
+Restart=on-failure
+RestartSec=5s
